@@ -173,9 +173,15 @@ const deleteOldProtocols = async (files: string[]) => {
 	});
 };
 
-const readProtocolConfig = async (file: string) => {
+const readProtocolConfig = async () => {
 	const fileschanged = await checkFiles();
 	await deleteOldProtocols(fileschanged);
+	fileschanged.forEach(filechanged => {
+		writeApis(filechanged);
+	});
+};
+
+const writeApis = async (file: string) => {
 	let data = await fs.readFile(join(__dirname, '../protocol', file), 'utf8');
 	data = deletCrlf(data);
 	const actions = getModule(data);
@@ -184,5 +190,3 @@ const readProtocolConfig = async (file: string) => {
 	createProtocols(moduleName, parseInt(moduleId), mapActions);
 	createModules(mapActions, moduleId, moduleName);
 };
-
-readProtocolConfig('10_poke.txt');
