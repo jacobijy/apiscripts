@@ -1,0 +1,1127 @@
+{
+	"1": {
+		"name": "get_item_basical_infos",
+		"in": {
+			"item_ids": {
+				"list": {
+					"id": "int"
+				}
+			}
+		},
+		"out": {
+			"infos": "list<item_basical_info>"
+		}
+	},
+	"2": {
+		"name": "get_empty_grid_number",
+		"in": {
+			"type": "int"
+		},
+		"out": {
+			"number": "int"
+		}
+	},
+	"21": {
+		"name": "get_facture_reel_data",
+		"in": {
+			"reel_id": "int",
+			"keep_level": "byte"
+		},
+		"out": {
+			"reel_id": "int",
+			"product_id": "int",
+			"product_level": "int",
+			"product_number": "int",
+			"require_items": {
+				"list": {
+					"item_id": "int",
+					"item_number": "int",
+					"item_description": "string",
+					"item_mission_ids": "string",
+					"player_item_number": "int"
+				}
+			},
+			"require_ingot": "int",
+			"player_item_id": "int",
+			"gold_oil_id": "int",
+			"god_equip_level": "byte"
+		}
+	},
+	"22": {
+		"name": "get_player_role_elixir_data",
+		"in": {
+			"player_role_id": "int",
+			"elixir_item_id": "int"
+		},
+		"out": {
+			"used_times": "int",
+			"add_value": "int"
+		}
+	},
+	"24": {
+		"name": "dismount_transport",
+		"in": {},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"NO_TRANSPORT"
+				]
+			},
+			"pack_grids_list": "list<pack_item_info>"
+		}
+	},
+	"25": {
+		"name": "avatar_card_off",
+		"in": {},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"NO_USE_AVATAR_CARD"
+				]
+			}
+		}
+	},
+	"27": {
+		"name": "player_use_grid_reel",
+		"in": {
+			"player_item_id": "int",
+			"process_type": "int",
+			"keep_level": "byte"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"MATERIAL_NOT_ENOUGH",
+					"PACK_FULL",
+					"INSUFFICIENT_INGOT",
+					"FUN_NOT_OPEN"
+				]
+			},
+			"product_item_id": "int",
+			"product_number": "int",
+			"changed_grids_list": "list<pack_item_info>"
+		}
+	},
+	"28": {
+		"name": "player_use_grid_elixir",
+		"in": {
+			"grid_id": "int",
+			"player_role_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"NOT_ELIXIR_ITEM",
+					"NOT_ELIXIR_VALUE"
+				]
+			},
+			"changed_grids_list": "list<pack_item_info>"
+		}
+	},
+	"29": {
+		"name": "player_get_super_gift",
+		"in": {
+			"player_gift_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PACK_FULL",
+					"CHAOS_PACK_FULL"
+				]
+			},
+			"updated_grids_list": "list<pack_item_info>"
+		}
+	},
+	"30": {
+		"name": "get_player_role_elixir_record",
+		"in": {
+			"player_role_id": "int"
+		},
+		"out": {
+			"player_role_id": "int",
+			"record_list": {
+				"list": {
+					"item_id": "int",
+					"type": "int",
+					"value": "int",
+					"times": "int",
+					"grid_id": "int",
+					"number": "int",
+					"ingot": "int"
+				}
+			}
+		}
+	},
+	"31": {
+		"name": "player_use_ingot_elixir",
+		"in": {
+			"item_id": "int",
+			"player_role_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"INSUFFICIENT_INGOT",
+					"NOT_ENOUGH_LEVEL",
+					"NOT_ELIXIR_ITEM",
+					"NOT_ELIXIR_VALUE"
+				]
+			}
+		}
+	},
+	"32": {
+		"name": "player_use_exp_dan",
+		"in": {
+			"item_id": "int",
+			"grid_id": "int",
+			"player_role_id": "int",
+			"num": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"OVER_MAX_RANGE",
+					"NOT_EXIST_ITEM",
+					"NOT_ENOUGH_NUM",
+					"NOT_EXIST_ROLE"
+				]
+			},
+			"use_num": "short",
+			"player_role_id": "int",
+			"changed_grids_list": "list<pack_item_info>"
+		}
+	},
+	"41": {
+		"name": "get_player_pack_item_list",
+		"in": {},
+		"out": {
+			"unlock_grid_number": "short",
+			"new_grid_ingot": "int",
+			"infos": "list<pack_item_info>"
+		}
+	},
+	"42": {
+		"name": "get_player_warehouse_grids",
+		"in": {
+			"town_npc_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"FUN_NOT_OPEN",
+					"INSUFFICIENT_INGOT"
+				]
+			},
+			"unlock_grid_number": "short",
+			"new_grid_ingot": "int",
+			"infos": "list<pack_item_info>"
+		}
+	},
+	"43": {
+		"name": "get_role_equip_list",
+		"in": {
+			"player_role_id": "int"
+		},
+		"out": {
+			"role_equit_list": "list<pack_item_info>"
+		}
+	},
+	"44": {
+		"name": "change_pack_item_grid",
+		"in": {
+			"from_grid_id": "short",
+			"to_grid_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PLAYER_GRID_NO_EXIST",
+					"SOURCE_GRID_EMPTY"
+				]
+			},
+			"changed_grid_list": "list<pack_item_info>"
+		}
+	},
+	"45": {
+		"name": "change_warehouse_item_grid",
+		"in": {
+			"from_grid_id": "short",
+			"to_grid_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PLAYER_GRID_NO_EXIST",
+					"SOURCE_GRID_EMPTY"
+				]
+			},
+			"changed_grid_list": "list<pack_item_info>"
+		}
+	},
+	"46": {
+		"name": "drop_pack_grid_item",
+		"in": {
+			"grid_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PLAYER_GRID_NO_EXIST",
+					"SOURCE_GRID_EMPTY",
+					"HAVE_SOUL"
+				]
+			},
+			"changed_grid_list": "list<pack_item_info>"
+		}
+	},
+	"47": {
+		"name": "drop_warehouse_grid_item",
+		"in": {
+			"grid_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PLAYER_GRID_NO_EXIST",
+					"SOURCE_GRID_EMPTY",
+					"HAVE_SOUL"
+				]
+			},
+			"changed_grid_list": "list<pack_item_info>"
+		}
+	},
+	"48": {
+		"name": "move_warehouse_grid_item_to_pack",
+		"in": {
+			"from_grid_id": "short",
+			"to_grid_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PLAYER_GRID_NO_EXIST",
+					"SOURCE_GRID_EMPTY",
+					"PACK_FULL"
+				]
+			},
+			"changed_grid_list": "list<pack_item_info>"
+		}
+	},
+	"49": {
+		"name": "move_pack_grid_item_to_warehouse",
+		"in": {
+			"from_grid_id": "short",
+			"to_grid_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PLAYER_GRID_NO_EXIST",
+					"SOURCE_GRID_EMPTY",
+					"WAREHOUSE_FULL"
+				]
+			},
+			"changed_grid_list": "list<pack_item_info>"
+		}
+	},
+	"50": {
+		"name": "equip_player_role_item",
+		"in": {
+			"player_grid_id": "short",
+			"player_role_id": "int",
+			"position_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PLAYER_ROLE_NOT_EXIST",
+					"PLAYER_GRID_NO_EXIST",
+					"SOURCE_GRID_EMPTY",
+					"NO_SUITE_EQUIP_TYPE",
+					"NO_SUITE_ROLE_LEVEL",
+					"NO_SUITE_ROLE_JOB",
+					"UN_AVALIABLE_GRID"
+				]
+			},
+			"changed_grid_list": "list<pack_item_info>"
+		}
+	},
+	"51": {
+		"name": "remove_player_role_equipment",
+		"in": {
+			"player_role_id": "int",
+			"position_id": "short",
+			"player_grid_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PLAYER_ROLE_NOT_EXIST",
+					"PLAYER_GRID_NO_EXIST",
+					"ROLE_POS_EQUI_EMPTY",
+					"NO_SUITE_ROLE_JOB",
+					"UN_AVALIABLE_GRID",
+					"NO_SUITE_ROLE_LEVEL",
+					"NO_SUITE_EQUIP_TYPE"
+				]
+			},
+			"changed_grid_list": "list<pack_item_info>"
+		}
+	},
+	"52": {
+		"name": "get_player_role_equip_list",
+		"in": {
+			"player_role_id": "int"
+		},
+		"out": {
+			"role_equit_list": "list<pack_item_info>"
+		}
+	},
+	"53": {
+		"name": "player_use_grid_item",
+		"in": {
+			"player_grid_id": "short",
+			"times": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"SOURCE_GRID_EMPTY",
+					"UNUSABLE_ITEM",
+					"NOT_ENOUGH_GRID",
+					"NOT_ENOUGH_LEVEL",
+					"JOB_NOT_MATCH",
+					"IN_CAMP_WAR",
+					"IN_FACTION_WAR",
+					"IN_HEROES_WAR",
+					"NOT_ENOUGH_FATE_GRID",
+					"NOT_ENOUGH_SOUL_GRID",
+					"NOT_ENOUGH_DRAGONBALL_GRID",
+					"NOT_ENOUGH_CHAOSITEM_GRID",
+					"END_TIME",
+					"NOT_INVITE_ROLE",
+					"ROLE_NO_REJOIN",
+					"CHAOSVOID_FUN_NOT_OPEN",
+					"ROLL_CAKE_FUN_NOT_OPEN",
+					"FIND_IMMORTAL_FUN_NOT_OPEN",
+					"TOWER_FUN_NOT_OPEN",
+					"FATE_FUN_NOT_OPEN",
+					"DRAGONBALL_VOW_FUN_NOT_OPEN",
+					"DRAGONBALL_FUN_NOT_OPEN",
+					"BECOME_IMMORTAL_FUN_NOT_OPEN"
+				]
+			},
+			"from_grids_list": "list<pack_item_info>"
+		}
+	},
+	"54": {
+		"name": "classify_pack",
+		"in": {
+			"new_pack_item_list": "list<pack_item_info>"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"ACTION_FAILED"
+				]
+			}
+		}
+	},
+	"55": {
+		"name": "classify_warehouse",
+		"in": {
+			"new_warehouse_item_list": "list<pack_item_info>"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"ACTION_FAILED"
+				]
+			}
+		}
+	},
+	"56": {
+		"name": "add_pack_grid",
+		"in": {
+			"grid_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PACK_FULL",
+					"INSUFFICIENT_INGOT"
+				]
+			},
+			"begin_grid_id": "short",
+			"end_grid_id": "short",
+			"next_grid_ingot": "short"
+		}
+	},
+	"57": {
+		"name": "add_warehouse_grid",
+		"in": {
+			"grid_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"WAREHOUSE_FULL",
+					"INSUFFICIENT_INGOT"
+				]
+			},
+			"begin_grid_id": "short",
+			"end_grid_id": "short",
+			"next_grid_ingot": "short"
+		}
+	},
+	"58": {
+		"name": "has_level_gift_item",
+		"in": {},
+		"out": {
+			"item_id": "int",
+			"grid_id": "int"
+		}
+	},
+	"59": {
+		"name": "has_medical_item",
+		"in": {},
+		"out": {
+			"item_id": "int",
+			"grid_id": "int",
+			"item_health": "int"
+		}
+	},
+	"71": {
+		"name": "get_npc_item_list",
+		"in": {
+			"town_npc_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"INSUFFICIENT_INGOT"
+				]
+			},
+			"town_npc_id": "int",
+			"item_list": "list<npc_shop_item_info>"
+		}
+	},
+	"72": {
+		"name": "get_npc_recycle_item_list",
+		"in": {},
+		"out": {
+			"npc_recycle_items": "list<shop_recycle_item_info>"
+		}
+	},
+	"73": {
+		"name": "player_sell_item",
+		"in": {
+			"grid_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"SOURCE_GRID_EMPTY",
+					"ITEM_LOCK",
+					"HAVE_SOUL"
+				]
+			},
+			"updated_grid_list": "list<pack_item_info>",
+			"updated_recycle_item_list": "list<shop_recycle_item_info>"
+		}
+	},
+	"74": {
+		"name": "player_buy_back_item",
+		"in": {
+			"recycle_id": "int",
+			"grid_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"RECYCLE_ITEM_NO_EXIST",
+					"RECYCLE_ITEM_EXPIRED",
+					"PLAYER_GRID_NO_EXIST",
+					"INSUFFICIENT_COIN",
+					"UNSUITED",
+					"UN_AVALIABLE_GRID"
+				]
+			},
+			"updated_grid_list": "list<pack_item_info>",
+			"updated_recycle_item_list": "list<shop_recycle_item_info>"
+		}
+	},
+	"75": {
+		"name": "player_buy_npc_item",
+		"in": {
+			"town_npc_id": "int",
+			"item_id": "int",
+			"grid_id": "short"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"NPC_ITEM_NO_EXIST",
+					"PLAYER_GRID_NO_EXIST",
+					"INSUFFICIENT_COIN",
+					"INSUFFICIENT_INGOT",
+					"INSUFFICIENT_CARD",
+					"UNSUITED",
+					"NOT_ENOUGH_VIP",
+					"UN_AVALIABLE_GRID",
+					"ALREADY_HAVE",
+					"NOT_ENOUGH_MOUNT_SCRAP"
+				]
+			},
+			"updated_grids_list": "list<pack_item_info>"
+		}
+	},
+	"76": {
+		"name": "lucky_shop_item_list",
+		"in": {
+			"town_npc_id": "int"
+		},
+		"out": {
+			"item_list": {
+				"list": {
+					"item_id": "int",
+					"can_buy": "int"
+				}
+			},
+			"refresh_hour": "int",
+			"refresh_seconds": "int",
+			"refresh_ingot": "int"
+		}
+	},
+	"77": {
+		"name": "lucky_shop_record_list",
+		"in": {},
+		"out": {
+			"record_list": {
+				"list": {
+					"player_id": "int",
+					"player_name": "string",
+					"item_id": "int",
+					"timestamp": "int"
+				}
+			}
+		}
+	},
+	"78": {
+		"name": "buy_lucky_shop_item",
+		"in": {
+			"town_npc_id": "int",
+			"item_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"NPC_ITEM_NO_EXIST",
+					"UN_AVALIABLE_GRID",
+					"INSUFFICIENT_COIN",
+					"ITEM_LIST_REFRESHED"
+				]
+			}
+		}
+	},
+	"79": {
+		"name": "refresh_lucky_shop",
+		"in": {},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"INSUFFICIENT_INGOT",
+					"ACTION_FAILED"
+				]
+			},
+			"item_list": {
+				"list": {
+					"item_id": "int",
+					"can_buy": "int"
+				}
+			}
+		}
+	},
+	"91": {
+		"name": "get_equipment_list",
+		"in": {
+			"player_item_id": "int",
+			"equip_role_id": "int"
+		},
+		"out": {
+			"player_role_id": "int",
+			"upgrade_equit_list": "list<upgrade_item_info>"
+		}
+	},
+	"92": {
+		"name": "equip_upgrade_stat",
+		"in": {},
+		"out": {
+			"probability": "byte",
+			"direction": {
+				"enum": [
+					"RAISING",
+					"FALLING",
+					"HOLDING"
+				]
+			},
+			"full_prob_ingot": "byte"
+		}
+	},
+	"93": {
+		"name": "upgrade_equip",
+		"in": {
+			"player_item_id": "int",
+			"probability": "byte",
+			"full_probability": "byte",
+			"times": "byte"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"PLAYER_ITEM_NO_EXIST",
+					"LEVEL_LIMIT",
+					"INSUFFICIENT_COIN",
+					"INSUFFICIENT_INGOT",
+					"PROBABILITY_CHANGE",
+					"COOLDOWN_TIME",
+					"LOW_SUCCESS_RATE"
+				]
+			},
+			"upgrade_equit_list": "list<upgrade_item_info>"
+		}
+	},
+	"94": {
+		"name": "clear_upgrade_cd_time",
+		"in": {
+			"cd_type_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"INSUFFICIENT_INGOT",
+					"ZERO_CD_TIME"
+				]
+			}
+		}
+	},
+	"95": {
+		"name": "open_upgrade_opportunity",
+		"in": {},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"INSUFFICIENT_INGOT",
+					"NOT_ENOUGH_VIP_LEVEL"
+				]
+			},
+			"id": "int",
+			"time": "int"
+		}
+	},
+	"96": {
+		"name": "equip_upgrade_stat_list",
+		"in": {},
+		"out": {
+			"open_more_ingot": "int",
+			"stat_list": {
+				"list": {
+					"id": "int",
+					"time": "int",
+					"ingot": "int"
+				}
+			}
+		}
+	},
+	"97": {
+		"name": "player_reel_need_item",
+		"in": {},
+		"out": {
+			"rell_need_item_list": {
+				"list": {
+					"player_item_id": "int",
+					"item_id": "int",
+					"grid_id": "int",
+					"need_item_id": "int",
+					"finished_item_id": "int"
+				}
+			},
+			"gold_item_list": {
+				"list": {
+					"player_item_id": "int",
+					"item_id": "int"
+				}
+			}
+		}
+	},
+	"98": {
+		"name": "player_equip_use_reel",
+		"in": {
+			"player_equip_item_id": "int",
+			"player_reel_item_id": "int",
+			"process_type": "int",
+			"keep_level": "byte"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"ACTION_SUCCESS",
+					"MATERIAL_NOT_ENOUGH",
+					"PACK_FULL",
+					"INSUFFICIENT_INGOT",
+					"FUN_NOT_OPEN",
+					"EQUIPMENT_NOT_IN_BODY",
+					"NOSUITEROLELEVEL"
+				]
+			},
+			"product_item_id": "int",
+			"product_number": "int",
+			"changed_grids_list": "list<pack_item_info>"
+		}
+	},
+	"100": {
+		"name": "get_player_item_facture_reel_data",
+		"in": {
+			"player_item_id": "int",
+			"reel_id": "int",
+			"keep_level": "byte"
+		},
+		"out": {
+			"reel_id": "int",
+			"product_id": "int",
+			"product_level": "int",
+			"product_number": "int",
+			"require_items": {
+				"list": {
+					"item_id": "int",
+					"item_number": "int",
+					"item_description": "string",
+					"item_mission_ids": "string",
+					"player_item_number": "int"
+				}
+			},
+			"require_ingot": "int",
+			"player_item_id": "int",
+			"gold_oil_id": "int"
+		}
+	},
+	"101": {
+		"name": "permanent_clean_item_update_cd",
+		"in": {},
+		"out": {
+			"result": {
+				"enum": [
+					"SUCCESS",
+					"ALREADY_HAVE",
+					"INSUFFICIENT_INGOT",
+					"NOUPGRADEQUEUE",
+					"NOVIPLEVEL"
+				]
+			}
+		}
+	},
+	"102": {
+		"name": "get_permanent_clean_item_update_cd",
+		"in": {},
+		"out": {
+			"state": "int"
+		}
+	},
+	"103": {
+		"name": "notify_super_gift_items",
+		"in": {},
+		"out": {
+			"coins": "int",
+			"fame": "int",
+			"power": "int",
+			"ingot": "int",
+			"stone": "int",
+			"state_point": "int",
+			"xian_ling": "int",
+			"nimbus": "int",
+			"skill": "int",
+			"daoyuan": "int",
+			"ne_dan": "int",
+			"dragonball_sacrifice": "int",
+			"dragonballs": {
+				"list": {
+					"dragonball_id": "int",
+					"dragonball_level": "short",
+					"dragonball_num": "short"
+				}
+			},
+			"items": {
+				"list": {
+					"item_id": "int",
+					"item_num": "int"
+				}
+			},
+			"fates": {
+				"list": {
+					"fate_id": "int",
+					"fate_number": "short"
+				}
+			},
+			"souls": {
+				"list": {
+					"soul_id": "int"
+				}
+			},
+			"chaos_item": {
+				"list": {
+					"chaos_item_id": "int",
+					"chaos_item_num": "short"
+				}
+			},
+			"role_scrap": {
+				"list": {
+					"scrap_id": "int",
+					"scrap_num": "short"
+				}
+			},
+			"is_champions": "byte"
+		}
+	},
+	"104": {
+		"name": "change_attack_item",
+		"in": {
+			"player_attack_item_id": "int",
+			"player_use_item_id": "int",
+			"to_item_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"SUCCESS",
+					"UN_AVALIABLE_GRID",
+					"NOT_ENOUGH_ITEM"
+				]
+			},
+			"changed_grids_list": "list<pack_item_info>"
+		}
+	},
+	"105": {
+		"name": "change_attack_info",
+		"in": {
+			"player_attack_item_id": "int"
+		},
+		"out": {
+			"change_item_list": "list<new_item_info>"
+		}
+	},
+	"106": {
+		"name": "get_soul",
+		"in": {
+			"town_npc_id": "int",
+			"soul_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"SUCCESS",
+					"NOT_ENOUGH_ITEM",
+					"NOT_GRID",
+					"TOWN_NPC_ERROR"
+				]
+			}
+		}
+	},
+	"107": {
+		"name": "get_the_item_num",
+		"in": {
+			"item_id": "int"
+		},
+		"out": {
+			"total_num": "int"
+		}
+	},
+	"108": {
+		"name": "can_change_list",
+		"in": {},
+		"out": {
+			"player_item_list": "list<change_pack_item_info>"
+		}
+	},
+	"109": {
+		"name": "get_gold_oil",
+		"in": {
+			"gold_oil_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"SUCCESS",
+					"NOT_ENOUGH_STATE_POINT",
+					"NOT_ENOUGH_DAY_COUNT",
+					"NOT_GRID"
+				]
+			}
+		}
+	},
+	"110": {
+		"name": "can_use_gold_info",
+		"in": {
+			"gold_oil_id": "int"
+		},
+		"out": {
+			"player_can_use_gold_info": "list<item_use_gold_oil>"
+		}
+	},
+	"111": {
+		"name": "use_gold_oil",
+		"in": {
+			"player_item_id": "int",
+			"player_gold_oil_item_id": "int"
+		},
+		"out": {
+			"result": {
+				"enum": [
+					"SUCCESS",
+					"FAILED",
+					"NOT_ENOUGH_STATE_POINT",
+					"UN_AVALIABLE_GRID",
+					"NOT_ENOUGH_ITEM",
+					"NOT_ENOUGH_COIN"
+				]
+			},
+			"changed_grids_list": "list<pack_item_info>"
+		}
+	},
+	"112": {
+		"name": "get_soul_stone_number",
+		"in": {},
+		"out": {
+			"number": "int"
+		}
+	},
+	"113": {
+		"name": "get_equipment_urgrade_five_level_price",
+		"in": {
+			"player_item_id": "int"
+		},
+		"out": {
+			"price": "int"
+		}
+	},
+	"114": {
+		"name": "get_mount_scrap_number",
+		"in": {},
+		"out": {
+			"number": "int"
+		}
+	},
+	"item_basical_info": {
+		"item_id": "int",
+		"icon_id": "int",
+		"type_id": "short",
+		"price": "int",
+		"ingot": "int",
+		"require_card_id": "int",
+		"require_card_number": "int",
+		"health": "int",
+		"health_up": "int",
+		"attack": "int",
+		"attack_up": "int",
+		"defense": "int",
+		"defense_up": "int",
+		"stunt_attack": "int",
+		"stunt_attack_up": "int",
+		"stunt_defense": "int",
+		"stunt_defense_up": "int",
+		"magic_attack": "int",
+		"magic_attack_up": "int",
+		"magic_defense": "int",
+		"magic_defense_up": "int",
+		"strength": "int",
+		"agile": "int",
+		"intellect": "int",
+		"description": "string"
+	},
+	"pack_item_info": {
+		"player_item_id": "int",
+		"item_id": "int",
+		"grid_id": "int",
+		"upgrade_level": "int",
+		"price": "int",
+		"number": "int",
+		"is_using": "int",
+		"gold_oil_id": "int",
+		"end_time": "int",
+		"god_equip_level": "byte"
+	},
+	"npc_shop_item_info": {
+		"item_id": "int"
+	},
+	"shop_recycle_item_info": {
+		"recycle_item_id": "int",
+		"item_id": "int",
+		"upgrade_level": "int",
+		"price": "int",
+		"number": "int",
+		"expire_time": "int",
+		"gold_oil_id": "int"
+	},
+	"upgrade_item_info": {
+		"player_item_id": "int",
+		"item_id": "int",
+		"player_role_id": "int",
+		"upgrade_level": "int",
+		"price": "int",
+		"gold_oil_id": "int"
+	},
+	"new_item_info": {
+		"item_id": "int",
+		"item_lv": "int"
+	},
+	"item_use_gold_oil": {
+		"player_item_id": "int",
+		"item_id": "int",
+		"player_item_lv": "int",
+		"item_attack_up": "int",
+		"item_defense_up": "int",
+		"item_stunt_attack_up": "int",
+		"item_stunt_defense_up": "int",
+		"item_magic_attack_up": "int",
+		"item_magic_defense_up": "int",
+		"item_health_up": "int",
+		"to_item_attack_up": "int",
+		"to_item_defense_up": "int",
+		"to_item_stunt_attack_up": "int",
+		"to_item_stunt_defense_up": "int",
+		"to_item_magic_attack_up": "int",
+		"to_item_magic_defense_up": "int",
+		"to_item_health_up": "int",
+		"role_id": "int"
+	}
+}
