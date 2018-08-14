@@ -2,16 +2,19 @@ import { promises as fs } from 'fs';
 import { join } from 'path';
 
 let interfaceObjText = '';
-let interfaceFuncText = '';
-let funcText = '';
 
-async function getTemplates() {
-	const text = await fs.readFile(join(__dirname, '../protocol/module_template.txt'), 'utf8');
+export async function getTemplates() {
+	const text = await fs.readFile(join('', './protocol/module_template.txt'), 'utf8');
 	const regInt = /\%interface\%\n([\s\S]*)\%interface\%/;
 	const regExp = /\%export\%\n([\s\S]*)\%export\%/;
 	const regFunc = /\%function\%\n([\s\S]*)\%function\%/;
 	const regObj = /\%interfaceex\%\n([\s\S]*)\%interfaceex\%/;
-	return [regInt.exec(text)[1], regExp.exec(text)[1], regFunc.exec(text)[1], regObj.exec(text)[1]];
+	let textInt = regInt.exec(text);
+	let textExp = regExp.exec(text);
+	let textFunc = regFunc.exec(text);
+	let textObj = regObj.exec(text);
+	console.log(textInt, textExp, textFunc, textObj);
+	return [textInt[1], textExp[1], textFunc[1], textObj[1]];
 }
 
 function ucFirst(word: string) {
@@ -41,6 +44,16 @@ function getJsType(type: string) {
 	}
 }
 
+/**
+ * 获取特殊对象
+ * @param obj in|out详细内容
+ * @param api api配置文件
+ * @param templates 文档模板
+ * @param actionName action名称
+ * @param interfaceText 特殊对象interface
+ * @param nameEx 额外取名
+ * @param inArray 是否在数组中
+ */
 function getObjInterface(
 	obj: { [key: string]: any },
 	api: { [key: string]: any },
@@ -96,6 +109,14 @@ function getObjInterface(
 	return inttemp;
 }
 
+/**
+ * 自动生成协议module的ts文件中的function内容
+ * @param actionId 协议的actionId
+ * @param obj Object of func
+ * @param template 模板
+ * @param moduleName 协议的module名称
+ * @param actionName 协议的action名称
+ */
 function getFuncs(
 	actionId: string,
 	obj: { [key: string]: any },
@@ -119,19 +140,24 @@ function getFuncs(
 	return template;
 }
 
-export default async function createModules(api: { [key: string]: any }, moduleId: string, moduleName: string) {
-	const templates = await getTemplates();
-	const Apis = await fs.readFile('./scripts/api.json', 'utf8');
-	const apiInfo = JSON.parse(Apis);
-	Object.keys(apiInfo).map(value => {
+export default async function createModules(
+	api: { [key: string]: any },
+	moduleId: string,
+	moduleName: string,
+	templates: string[]) {
+	let interfaceFuncText = '';
+	let funcText = '';
+	interfaceObjText = '';
+	// const apiInfo = JSON.parse(Apis);
+	Object.keys(api).map(value => {
 		if (Object.is(parseInt(value), NaN)) {
 			console.log(pascalName(value));
 		}
 		else {
-			const actionInfo = apiInfo[value];
+			const actionInfo = api[value];
 			const down = actionInfo.in;
 			const up = actionInfo.out;
-			let inttemp = getObjInterface(up, apiInfo, templates, actionInfo.name);
+			let inttemp = getObjInterface(up, api, templates, actionInfo.name);
 			let fuctemp = getFuncs(value, up, templates[2], moduleName, actionInfo.name);
 			inttemp = inttemp.replace('%action%', pascalNameAll(actionInfo.name));
 			interfaceFuncText += inttemp;
@@ -145,18 +171,17 @@ export default async function createModules(api: { [key: string]: any }, moduleI
 		`/* tslint:disable */
 import { WServer } from '../..';
 
-${interfaceObjText};
+${interfaceObjText}
 
-interface IModule${newModuleName} {
-${interfaceFuncText}
-}
+class Module${newModuleName} {
+${interfaceFuncText}}
 
-const ${newModuleName}: IModule${newModuleName} = {};
+const ${newModuleName}: Module${newModuleName} = new Module${newModuleName}();
 
 ${funcText}
 
 export default ${newModuleName};
 `;
 	console.log(moduleDetail);
-	await fs.writeFile(join(__dirname, `../modules/send/Module${newModuleName}.ts`), moduleDetail);
+	await fs.writeFile(join('.', `./modules/send/Module${newModuleName}.ts`), moduleDetail);
 }

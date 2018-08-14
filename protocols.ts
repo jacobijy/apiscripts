@@ -23,7 +23,7 @@ const getProtocolName = (moduleId: number, actionId: number, type: 'in' | 'out')
 
 const writeActionJsons = async (moduleId: number, actionId: number, data: string, type: 'in' | 'out') => {
 	const jsonName = getProtocolName(moduleId, actionId, type);
-	const filename = join(__dirname, `../test/${type === 'in' ? 'down' : 'up'}/${jsonName}`);
+	const filename = join('', `./test/${type === 'in' ? 'down' : 'up'}/${jsonName}`);
 	await writeFile(filename, data);
 	return filename;
 };
@@ -36,22 +36,22 @@ function createClass(moduleName: string, actionName: string, moduleId: number, i
 
 async function writeClassJsons(moduleName: string, className: string, data: string) {
 	const classfileName = `protocol_classes_${moduleName}_${className}.json`;
-	const filename = join(__dirname, `../test/class/${classfileName}`);
+	const filename = join('.', `./test/class/${classfileName}`);
 	await writeFile(filename, data);
 }
 
 export default function createProtocols(moduleName: string, moduleId: number, moduleInfo: IJson) {
-	Object.keys(moduleInfo).map((value, index) => {
+	Object.keys(moduleInfo).map(async (value, index) => {
 		const actionName = moduleInfo[value].name;
 		if (!Object.is(parseInt(value), NaN)) {
 			const actionId = parseInt(value);
 			const actions = createActions(moduleName, actionName, moduleInfo[value]);
-			writeActionJsons(moduleId, actionId, JSON.stringify(actions.in, null, '\t'), 'in');
-			writeActionJsons(moduleId, actionId, JSON.stringify(actions.out, null, '\t'), 'out');
+			await writeActionJsons(moduleId, actionId, JSON.stringify(actions.in, null, '\t'), 'in');
+			await writeActionJsons(moduleId, actionId, JSON.stringify(actions.out, null, '\t'), 'out');
 		}
 		else {
 			const classInfo = createClass(moduleName, value, moduleId, moduleInfo[value]);
-			writeClassJsons(moduleName, value, JSON.stringify(classInfo, null, '\t'));
+			await writeClassJsons(moduleName, value, JSON.stringify(classInfo, null, '\t'));
 		}
 	});
 }

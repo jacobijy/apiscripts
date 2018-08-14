@@ -2,7 +2,8 @@ import { promises as fs } from 'fs';
 import { join } from 'path';
 import checkFiles from './checkFiles';
 import createProtocols from './protocols';
-import createModules from './modules';
+import createModules, { getTemplates } from './modules';
+
 let moduleName = '';
 let moduleId = '';
 const mapActions: { [key: string]: any } = {};
@@ -15,8 +16,8 @@ const getModule = (data: string) => {
 	return array[3];
 };
 
-const splitClass = (classes: string) => {
-	const regclass = /([\s\S]*)(\s+)([a-z_]+)\s*=\s*\d/;
+const splitClass = (classes: string, result: { [key: string]: any }) => {
+	const regclass = /([\s\S]*)(\s+)([a-z_]+)\s*=\s*0/;
 	let arr = regclass.exec(classes);
 	let classString = arr[1];
 	const regsplit = /class\s*([^\s]*)/g;
@@ -28,12 +29,12 @@ const splitClass = (classes: string) => {
 	array.map((value, index) => {
 		if (index % 2 === 1) {
 			className = value;
-			Object.assign(mapActions, { [className]: {} });
+			Object.assign(result, { [className]: {} });
 		}
 		else if (index > 0) {
 			regclass.lastIndex = 0;
 			regDetail.lastIndex = 0;
-			getAllInfoReg(value, regDetail, mapActions[className], 'class');
+			getAllInfoReg(value, regDetail, result[className], 'class');
 			regDetail.lastIndex = 0;
 			classIndex++;
 		}
@@ -105,7 +106,7 @@ const getAllInfoReg = (text: string, reg: RegExp, result: { [key: string]: any }
 
 // split actions in one module
 // split in and out config in one action
-const splitActions = (actions: string) => {
+const splitActions = (actions: string, result: { [key: string]: any }) => {
 	// const reg = /([^=\s]+)\s*=\s*([^=\s]+)\s*{\s*(in\s*{[^}]*})\s*(out\s*{[^}]*})[^}]*}/g;
 	const reg = /([^=\s]+)\s*=\s*([^=\s]+)\s*/g;
 	const regin = /in\s*{([\s\S]*)}\s*out/g;
@@ -132,7 +133,7 @@ const splitActions = (actions: string) => {
 			actionName = value;
 		}
 		else if (index % 3 === 2) {
-			Object.assign(mapActions, { [actionIds[actionIndex]]: { name: actionName } });
+			Object.assign(result, { [actionIds[actionIndex]]: { name: actionName } });
 		}
 		else if (index > 0) {
 			regin.lastIndex = 0;
@@ -140,9 +141,9 @@ const splitActions = (actions: string) => {
 			const inarray = regin.exec(value);
 			const outarray = regout.exec(value);
 			regDetail.lastIndex = 0;
-			getAllInfoReg(inarray[1], regDetail, mapActions[actionIds[actionIndex]], 'in');
+			getAllInfoReg(inarray[1], regDetail, result[actionIds[actionIndex]], 'in');
 			regDetail.lastIndex = 0;
-			getAllInfoReg(outarray[1], regDetail, mapActions[actionIds[actionIndex]], 'out');
+			getAllInfoReg(outarray[1], regDetail, result[actionIds[actionIndex]], 'out');
 			actionIndex++;
 		}
 	});
@@ -156,37 +157,52 @@ const deletCrlf = (text: string) => {
 };
 
 const deleteOldProtocols = async (files: string[]) => {
-	const upfiles = await fs.readdir(join(__dirname, '../protocol/up'));
-	const downfiles = await fs.readdir(join(__dirname, '../protocol/down'));
+	const upfiles = await fs.readdir(join('.', './protocol/up'));
+	const downfiles = await fs.readdir(join('.', './protocol/down'));
 	files.forEach(file => {
 		const moduleIdTmp = file.split('_')[0];
 		upfiles.forEach(upfile => {
 			if (upfile.split('_')[2] === moduleIdTmp) {
-				fs.unlink(join(__dirname, '../protocol/up') + upfile);
+				fs.unlink(join('.', './protocol/up') + upfile);
 			}
 		});
 		downfiles.forEach(downfile => {
 			if (downfile.split('_')[2] === moduleIdTmp) {
-				fs.unlink(join(__dirname, '../protocol/up') + downfile);
+				fs.unlink(join('.', './protocol/up') + downfile);
 			}
 		});
 	});
 };
 
-const readProtocolConfig = async () => {
+const readProtocolConfig = async (file: string) => {
+	let data = await fs.readFile(join('.', './protocol', file), 'utf8');
+	let tempates = await getTemplates();
+	data = deletCrlf(data);
+	const actions = getModule(data);
+	const classes = splitClass(actions, mapActions[file]);
+	splitActions(classes, mapActions[file]);
+	// try {
+	// 	await fs.writeFile(join('.', './api.json'), JSON.stringify(mapActions, null, '\t'));
+	// } catch (error) {
+	// 	console.log(error);
+	// }
+	createProtocols(moduleName, parseInt(moduleId), mapActions[file]);
+	await createModules(mapActions[file], moduleId, moduleName, tempates);
+};
+
+// readProtocolConfig('11_mahjong.txt');
+const createApis = async () => {
 	const fileschanged = await checkFiles();
+	fileschanged.reduce((prevValue, curValue, index) => {
+		return Object.assign(prevValue, { [curValue]: {} });
+	}, mapActions);
 	await deleteOldProtocols(fileschanged);
-	fileschanged.forEach(filechanged => {
-		writeApis(filechanged);
+	let promises = fileschanged.map(readProtocolConfig);
+	Promise.all(promises).then(results => {
+		console.log(results);
+	}).catch(err => {
+		console.log(err);
 	});
 };
 
-const writeApis = async (file: string) => {
-	let data = await fs.readFile(join(__dirname, '../protocol', file), 'utf8');
-	data = deletCrlf(data);
-	const actions = getModule(data);
-	const classes = splitClass(actions);
-	splitActions(classes);
-	createProtocols(moduleName, parseInt(moduleId), mapActions);
-	createModules(mapActions, moduleId, moduleName);
-};
+createApis();
